@@ -4,19 +4,20 @@ import exceptions.DuplicateSymbolException;
 import exceptions.InvalidBoardDimensionException;
 import exceptions.InvalidBotCountException;
 import exceptions.InvalidNumberOfPlayerException;
+import strategy.WinningStrategy;
 
 import java.util.*;
 
 public class Game {
     private List<Player> players;
-    private List<Board> board;
+    private Board board;
     private List<Move> moves;
     private Player winner;
     private GameState gameState;
     private int nextPlayer;
     private List<WinningStrategy> winningStrategies;
 
-    private Game(List<Player> players, List<Board> board, List<WinningStrategy> winningStrategies) {
+    private Game(List<Player> players, Board board, List<WinningStrategy> winningStrategies) {
         this.players = players;
         this.board = board;
         this.moves = new ArrayList<Move>();
