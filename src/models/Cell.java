@@ -2,10 +2,10 @@ package models;
 
 public class Cell {
 
+    private Player player;
+    private CellState cellState;
     private int row;
     private int col;
-    private CellState cellState;
-    private Player player;
 
     public Cell(int row, int col) {
         this.row = row;
@@ -13,21 +13,37 @@ public class Cell {
         this.cellState = CellState.EMPTY;
     }
 
-    public Cell(int row, int col, Player player) {
-        this.row = row;
-        this.col = col;
+    public Cell(Player player, int row, int col) {
         this.player = player;
         this.cellState = CellState.FILLED;
+        this.row = row;
+        this.col = col;
     }
 
-    public void display(){
+    public void displayCell(){
         if(player == null){
-            System.out.print("|  |");
-        }else if(cellState.equals(CellState.BLOCKED)){
-            System.out.print("|" + player.getSymbol().getSymbolChar() + "|");
-        }else{
-            System.out.print("|" + player.getSymbol().getSymbolChar() + "|");
+            System.out.print("| |");
+        } else if(cellState.equals(CellState.BLOCKED)){
+            System.out.print("||||");
+        } else {
+            System.out.print("|" + player.getSymbol().getSymbolChar()+ "|");
         }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public CellState getCellState() {
+        return cellState;
+    }
+
+    public void setCellState(CellState cellState) {
+        this.cellState = cellState;
     }
 
     public int getRow() {
@@ -44,21 +60,5 @@ public class Cell {
 
     public void setCol(int col) {
         this.col = col;
-    }
-
-    public CellState getCellState() {
-        return cellState;
-    }
-
-    public void setCellState(CellState cellState) {
-        this.cellState = cellState;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
     }
 }

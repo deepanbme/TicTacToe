@@ -4,110 +4,132 @@ import exceptions.DuplicateSymbolException;
 import exceptions.InvalidBoardDimensionException;
 import exceptions.InvalidBotCountException;
 import exceptions.InvalidNumberOfPlayerException;
-import strategy.WinningStrategy;
+import strategy.winningStrategy.WinningStrategy;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class Game {
+
     private List<Player> players;
     private Board board;
     private List<Move> moves;
     private Player winner;
-    private GameState gameState;
-    private int nextPlayer;
     private List<WinningStrategy> winningStrategies;
+    private GameState gameState;
 
     private Game(List<Player> players, Board board, List<WinningStrategy> winningStrategies) {
         this.players = players;
         this.board = board;
-        this.moves = new ArrayList<Move>();
-        this.gameState = GameState.IN_PROGRESS;
-        this.nextPlayer = 0;
+        this.moves = new ArrayList<>();
         this.winningStrategies = winningStrategies;
+        this.gameState = GameState.IN_PROGRESS;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public List<Move> getMoves() {
+        return moves;
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public List<WinningStrategy> getWinningStrategies() {
+        return winningStrategies;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public static Builder builder(){
+        return new Builder();
     }
 
     public static class Builder{
-        private List<WinningStrategy> winningStrategies;
         private List<Player> players;
-        int dimension;
-
-        public static Builder builder(){
-            return new Builder();
-        }
+        private List<WinningStrategy> winningStrategies;
+        private int dimension;
 
         private Builder() {
-            this.winningStrategies = new ArrayList<WinningStrategy>();
-            this.players = new ArrayList<Player>();
+            this.players = new ArrayList<>();
+            this.winningStrategies = new ArrayList<>();
             this.dimension = 0;
         }
 
-        public void setWinningStrategies(List<WinningStrategy> winningStrategies) {
-            this.winningStrategies = winningStrategies;
+        public List<Player> getPlayers() {
+            return players;
         }
 
-        public void setPlayers(List<Player> players) {
+        public Builder setPlayers(List<Player> players) {
             this.players = players;
+            return this;
         }
 
-        public void setDimension(int dimension) {
+        public List<WinningStrategy> getWinningStrategies() {
+            return winningStrategies;
+        }
+
+        public Builder setWinningStrategies(List<WinningStrategy> winningStrategies) {
+            this.winningStrategies = winningStrategies;
+            return this;
+        }
+
+        public int getDimension() {
+            return dimension;
+        }
+
+        public Builder setDimension(int dimension) {
             this.dimension = dimension;
+            return this;
         }
 
-        public void addPlayer(Player player){
-            players.add(player);
-        }
-        public void addWinningStrategy(WinningStrategy winningStrategy){
-            winningStrategies.add(winningStrategy);
-        }
-
-        private void validateBotCounts(){
+        private void validateBotCount(){
             int botCount = 0;
+
             for(Player player : players){
-                if(player.getPlayerType().equals(PlayerType.BOT)) botCount++;
+                if (player.getPlayerType().equals(PlayerType.BOT)) botCount++;
             }
 
-            if(botCount > 1){
-                throw  new InvalidBotCountException("Bot count is more than 1");
-            }
+            if(botCount > 1) throw new InvalidBotCountException("Bot cannot be more than 1");
         }
 
-        private void validateDimensions(){
-            if(dimension<3 || dimension > 10){
-                throw new InvalidBoardDimensionException("Board dimension should be between 3-10");
-            }
+        private void validateDimension(){
+            if(this.getDimension() < 3 || this.getDimension() > 10) throw new InvalidBoardDimensionException("Board size should be between 3 and 10");
         }
 
-        private void validateNumberOfPlayer(){
-            if(players.size() != dimension-1){
-                throw new InvalidNumberOfPlayerException("Number of players should be dimension-1");
-            }
+        private void validateNumberOfPlayers(){
+            if(players.size() != this.dimension-1) throw new InvalidNumberOfPlayerException("number of players should be dimension-1");
         }
 
-        private void validateUniqueSymbolsForAllPlayers(){
+        private void validateUniqueSymbols(){
             HashSet<Character> set = new HashSet<>();
-
             for(Player player : players){
                 set.add(player.getSymbol().getSymbolChar());
             }
 
-            if(set.size() != players.size()){
-                throw new DuplicateSymbolException("Symbols already chosen by other players");
-            }
+            if(players.size() != set.size()) throw new DuplicateSymbolException("duplicate symbols were chosen");
         }
 
         private void validate(){
-            validateBotCounts();
-            validateDimensions();
-            validateNumberOfPlayer();
-            validateUniqueSymbolsForAllPlayers();
+            validateDimension();
+            validateBotCount();
+            validateNumberOfPlayers();
+            validateUniqueSymbols();
         }
 
-
-        private Game build(){
+        public Game build(){
             validate();
             return new Game(players, new Board(dimension), winningStrategies);
         }
     }
-
-
 }

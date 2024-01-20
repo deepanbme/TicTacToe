@@ -1,19 +1,11 @@
 package models;
 
 public class Move {
-    private Cell cell;
     private Player player;
+    private Cell cell;
 
-    public Move(Cell cell, Player player) {
-        this.cell = cell;
+    public Move(Player player, Cell cell) {
         this.player = player;
-    }
-
-    public Cell getCell() {
-        return cell;
-    }
-
-    public void setCell(Cell cell) {
         this.cell = cell;
     }
 
@@ -23,5 +15,13 @@ public class Move {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 }

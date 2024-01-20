@@ -1,0 +1,86 @@
+singleton
+- restricting users to not create more than one object
+- class A Should let not user more objects
+
+- client class -> A a = ;
+
+Builder
+- lot of attributes and you want to validate before creating any objects
+
+
+Prototype
+- class A has 5 attributes
+out of 5, 2 are going across different objects of same class
+
+
+Abstract factory
+
+- class A has 2 attributes 2 methods that does not create any objects and 1 method that creates object for class B
+
+
+adapter
+interface legalApi
+transaction
+validate
+
+yesBankApiImp implement legalAPi
+YesBankAPi yb = new YesBankApi();
+transaction(){
+}
+validate(){
+
+Icici implement legalAPi
+Icici yb = new YesBankApi();
+transaction(){
+}
+validate(){
+
+client class{
+legalAPi l = new Icici();
+
+l.transaction();
+
+facade
+
+validator pack
+- orderValidator
+placeOrder()
+- deliveryValidator
+
+helper pack
+
+factory pack
+
+
+TesCase
+ orderValidator.placeOrder();
+ orderValidator.makePayment();
+ orderValidator.deliverOrder();
+
+ intrinsic
+ - name - 4
+ - residence - 4
+- Extrinsic ex;
+
+ extrinsic
+ - years of experience - 4
+ - company - 4
+
+ resume1
+
+
+observer
+- IBM
+- subscribed
+- IBM has CommunicationService to send email to empl
+void notifyEmp();
+emailService imple CommService
+smsService imple Commservice
+- CommunicationService becomes a publisher (of updates)
+- subscribed ibm emailService
+
+
+
+
+
+

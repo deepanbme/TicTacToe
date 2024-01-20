@@ -1,36 +1,29 @@
 package models;
 
-import strategy.BotPlayingStrategy;
+import strategy.botPlayingStrategy.BotPlayingStrategy;
 
 public class Bot extends Player{
-    private BotDifficultyLevel botDifficultyLevel;
+
+    private BotPlayingDifficultyLevel botPlayingDifficultyLevel;
     private BotPlayingStrategy botPlayingStrategy;
 
-    public Bot(Symbol symbol, String name, Long id, BotDifficultyLevel botDifficultyLevel, BotPlayingStrategy botPlayingStrategy) {
-        super(symbol, name, PlayerType.BOT, id);
-        this.botDifficultyLevel = botDifficultyLevel;
+    public Bot(String name, Symbol symbol, PlayerType playerType, BotPlayingDifficultyLevel botPlayingDifficultyLevel, BotPlayingStrategy botPlayingStrategy) {
+        super(name, symbol, playerType);
+        this.botPlayingDifficultyLevel = botPlayingDifficultyLevel;
         this.botPlayingStrategy = botPlayingStrategy;
     }
 
     public Move makeMove(Board board){
-        Move move = botPlayingStrategy.makeMove(board);
+        Move move = botPlayingStrategy.makeMove(board, this);
         move.setPlayer(this);
         return move;
     }
 
-    public BotDifficultyLevel getBotDifficultyLevel() {
-        return botDifficultyLevel;
-    }
-
-    public void setBotDifficultyLevel(BotDifficultyLevel botDifficultyLevel) {
-        this.botDifficultyLevel = botDifficultyLevel;
+    public BotPlayingDifficultyLevel getBotPlayingDifficultyLevel() {
+        return botPlayingDifficultyLevel;
     }
 
     public BotPlayingStrategy getBotPlayingStrategy() {
         return botPlayingStrategy;
-    }
-
-    public void setBotPlayingStrategy(BotPlayingStrategy botPlayingStrategy) {
-        this.botPlayingStrategy = botPlayingStrategy;
     }
 }
